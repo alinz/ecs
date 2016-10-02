@@ -20,25 +20,19 @@ func bitCounter(val uint32) uint32 {
 // this is useful when you have an array of object and you want to find
 // a specific one. rather than going through the array every time, you can
 // find the index of that specific item in constant time.
-func calcPositionWithMask(combined, mask uint32) uint32 {
-	if combined&mask == 0 {
+func calcBitIndex(all, target uint32) uint32 {
+	if all&target == 0 {
 		return 0
 	}
 
-	var maskAllRightBits uint32
+	var targetAllRightBits uint32
 
 	//this is a trick that only works on power of 2 numbers.
 	//for example 32 representation is 000100000. now in order to make only the right side
-	//of one ones is double the mask and subtracting by 1. so if you do that, 64 - 1 => 000011111
-	//now when you combined this with rightBits, you will get the current index.
-	maskAllRightBits = 2*mask - 1
-	maskAllRightBits &= combined
+	//of one ones is double the target and subtracting by 1. so if you do that, 64 - 1 => 000011111
+	//now when you all this with rightBits, you will get the current index.
+	targetAllRightBits = 2*target - 1
+	targetAllRightBits &= all
 
-	return bitCounter(maskAllRightBits)
-}
-
-func oneIndex(val uint32) uint32 {
-	// we need to val - 1
-	//
-	return 0
+	return bitCounter(targetAllRightBits)
 }
